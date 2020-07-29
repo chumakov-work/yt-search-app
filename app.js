@@ -41,52 +41,35 @@ function videoSearch(key, maxResults, search) {
             let x = 0
 
             let element = `
-            <div class="element">
-            <div class="elementInner">
-                <img src="${video.snippet.thumbnails.medium.url}" alt="preview" class="preview">
-                <div class="elementDesc">
-                    <h2 class="videoTitle">${(videoTitle.length > 60) ? videoTitle.slice(0, 60) + '...' : videoTitle}</h2>
-                    <p class="videoDesc">${videoDesc}</p>
-                </div>
-                <div class="videoInfo">
-                    <p id="videoDate">${videoDate}</p>
-                    <p id="author">${author}</p>
-                </div>
-            </div>
+                <div class="element">
+                    <div class="elementInner">
+                        <img src="${video.snippet.thumbnails.medium.url}" alt="preview" class="preview">
+                        <div class="elementDesc">
+                            <button class="videoTitle">${(videoTitle.length > 60) ? videoTitle.slice(0, 60) + '...' : videoTitle}</button>
+                            <p class="videoDesc">${videoDesc}</p>
+                        </div>
+                        <div class="videoInfo">
+                            <p id="videoDate">${videoDate}</p>
+                            <p id="author">${(author.length > 20) ? author.slice(0, 20) + '...' : author}</p>
+                        </div>
+                    </div>
 
-            <div class="videoPlayer">
-                <iframe id="ytplayer" type="text/html" width="720" height="405" src="https://www.youtube.com/embed/${video.id.videoId}" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
+                    <div class="videoPlayer hidden">
+                        <iframe id="ytplayer" type="text/html" width="720" height="405" src="https://www.youtube.com/embed/${video.id.videoId}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
             ` 
 
-            let elements = document.querySelectorAll('.preview')
-            for (let x=0; x<elements.length; x++) {
-                elements[x].addEventListener('click', () => {
-                    let element = elements[x].getElementsByClassName('videoPlayer')
-                    if (element[0].style.display != 'flex') {
-                        (element[0].style.display = 'flex')
-                    } else {
-                        (element[0].style.display = 'none')
-                    }
-                })
-            }
             output.innerHTML += element
             searchInput.value = ''
-        })
 
-        
-    })
+            let title = document.querySelectorAll('.videoTitle')
+            let elements = document.querySelectorAll('.element')
+            for (let i=0; i<title.length; i++) {
+                title[i].addEventListener('click', () => {
+                    elements[i].querySelector('.videoPlayer').classList.toggle('hidden')
+                })
+            }
+        }) 
+    }) 
 }
-
-// 
-
-
-
-
-
-
-
-
-
-// 
