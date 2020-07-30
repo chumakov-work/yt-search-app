@@ -2,14 +2,14 @@ const API_KEY = 'AIzaSyDQFs7fryLROnupgmBSO-vX4PL23jcj8yM'
 const searchBtn = document.getElementById('searchBtn')
 const searchInput = document.getElementById('search')
 const output = document.getElementById('output')
-const form = document.getElementById('form')
 
 form.addEventListener('submit', (event) => {
     event.preventDefault()
 })
 
 searchBtn.addEventListener('click', (event) => {
-    document.getElementById('container').style.marginTop = 0
+    let form = document.getElementById('container')
+    form.style.marginTop = 0
     var searching = searchInput.value
     videoSearch(API_KEY, 10, searching)
     output.innerHTML = ''
@@ -17,17 +17,19 @@ searchBtn.addEventListener('click', (event) => {
 
 function videoSearch(key, maxResults, search) {
     const promise = new Promise((resolve, reject) => {
-        let requestUrl = ('https://www.googleapis.com/youtube/v3/search?order=viewCount&part=snippet&key=' + key + '&type=video&part=snippet&maxResults=' + maxResults + '&q=' + search)
-        const xhr = new XMLHttpRequest()
-        xhr.open('GET', requestUrl, true)
-        xhr.responseType = 'json'
-        xhr.onload = () => {
-            (xhr.status >= 400) ? console.error(xhr.response) : resolve(xhr.response)
-        }
-        xhr.onerror = () => {
-            console.log(xhr.response)
-        }
-        xhr.send()
+        if (searchInput.value !== '') {
+            let requestUrl = ('https://www.googleapis.com/youtube/v3/search?order=viewCount&part=snippet&key=' + key + '&type=video&part=snippet&maxResults=' + maxResults + '&q=' + search)
+            const xhr = new XMLHttpRequest()
+            xhr.open('GET', requestUrl, true)
+            xhr.responseType = 'json'
+            xhr.onload = () => {
+                (xhr.status >= 400) ? console.error(xhr.response) : resolve(xhr.response)
+            }
+            xhr.onerror = () => {
+                console.log(xhr.response)
+            }
+            xhr.send()
+        }        
     })
 
     promise.then(data => {
