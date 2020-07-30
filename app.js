@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyDIIh4UtS8CVi0c4NTO55jF65AzdFD_oTc'
+const API_KEY = 'AIzaSyDQFs7fryLROnupgmBSO-vX4PL23jcj8yM'
 const searchBtn = document.getElementById('searchBtn')
 const searchInput = document.getElementById('search')
 const output = document.getElementById('output')
@@ -45,7 +45,7 @@ function videoSearch(key, maxResults, search) {
                     <div class="elementInner">
                         <img src="${video.snippet.thumbnails.medium.url}" alt="preview" class="preview">
                         <div class="elementDesc">
-                            <button class="videoTitle">${(videoTitle.length > 60) ? videoTitle.slice(0, 60) + '...' : videoTitle}</button>
+                            <h1 class="videoTitle">${(videoTitle.length > 60) ? videoTitle.slice(0, 60) + '...' : videoTitle}</h1>
                             <p class="videoDesc">${videoDesc}</p>
                         </div>
                         <div class="videoInfo">
@@ -67,6 +67,10 @@ function videoSearch(key, maxResults, search) {
             let elements = document.querySelectorAll('.element')
             for (let i=0; i<title.length; i++) {
                 title[i].addEventListener('click', () => {
+                    for (let y=0; y<title.length; y++) {
+                        elements[y].querySelector('.videoPlayer').classList.add('hidden')
+                    }
+                    
                     elements[i].querySelector('.videoPlayer').classList.toggle('hidden')
                 })
             }
