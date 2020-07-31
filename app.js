@@ -8,8 +8,6 @@ form.addEventListener('submit', (event) => {
 })
 
 searchBtn.addEventListener('click', (event) => {
-    let form = document.getElementById('container')
-    form.style.marginTop = 0
     var searching = searchInput.value
     videoSearch(API_KEY, 10, searching)
     output.innerHTML = ''
@@ -37,43 +35,44 @@ function videoSearch(key, maxResults, search) {
 
         data.items.forEach(video => {
             let videoTitle = video.snippet.title
-            let videoDesc = video.snippet.description
-            let videoDate = video.snippet.publishedAt
             let author = video.snippet.channelTitle
-            let x = 0
 
             let element = `
-                <div class="element">
-                    <div class="elementInner">
-                        <img src="${video.snippet.thumbnails.medium.url}" alt="preview" class="preview">
-                        <div class="elementDesc">
-                            <h1 class="videoTitle">${(videoTitle.length > 60) ? videoTitle.slice(0, 60) + '...' : videoTitle}</h1>
-                            <p class="videoDesc">${videoDesc}</p>
-                        </div>
-                        <div class="videoInfo">
-                            <p id="videoDate">${videoDate}</p>
-                            <p id="author">${(author.length > 20) ? author.slice(0, 20) + '...' : author}</p>
-                        </div>
+            <div class="element mb-3" style="background-color: #ededed">
+                <div class="elementInner d-flex justify-content-start align-items-center">
+                    <img src="${video.snippet.thumbnails.medium.url}" alt="preview" class="preview m-3" style="width: 160px">
+                    <div class="elementDesc w-75">
+                        <h3 class="videoTitle">${(videoTitle.length > 60) ? videoTitle.slice(0, 60) + '...' : videoTitle}</h3>
+                        <p id="author">Автор: ${(author.length > 20) ? author.slice(0, 20) + '...' : author}</p>
                     </div>
-
-                    <div class="videoPlayer hidden">
-                        <iframe id="ytplayer" type="text/html" width="720" height="405" src="https://www.youtube.com/embed/${video.id.videoId}" frameborder="0" allowfullscreen></iframe>
+                    <div class="videoInfo d-flex flex-column justify-content-center">
+                        <p id="videoDate">Дата публикации:</p>
+                        <p id="videoDate">${video.snippet.publishedAt}</p>
                     </div>
                 </div>
+
+                <div class="videoPlayer hidden w-100 m-3">
+                    <iframe id="ytplayer" class="mx-auto" type="text/html" width="97.5%" height="600" src="https://www.youtube.com/embed/${video.id.videoId}" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
             ` 
 
             output.innerHTML += element
             searchInput.value = ''
 
             let title = document.querySelectorAll('.videoTitle')
+            console.log(title)
             let elements = document.querySelectorAll('.element')
             for (let i=0; i<title.length; i++) {
                 title[i].addEventListener('click', () => {
                     for (let y=0; y<title.length; y++) {
                         elements[y].querySelector('.videoPlayer').classList.add('hidden')
                     }
-                    
-                    elements[i].querySelector('.videoPlayer').classList.toggle('hidden')
+                    elements[i].querySelector('.videoPlayer').classList.toggle('hidden');
+
+                    title[i].addEventListener('click', () => {
+                        elements[i].querySelector('.videoPlayer').classList.toggle('hidden')
+                    })
                 })
             }
         }) 
