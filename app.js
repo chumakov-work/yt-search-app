@@ -1,6 +1,4 @@
-//
-
-const API_KEY = 'AIzaSyBvJF0nvvfSbKH1_6VdN08xNX-cFbhfzQ4'
+const API_KEY = 'KEY_PLACEHOLDER'
 const MAX_RESULTS = 10
 
 const searchBtn = document.getElementById('searchBtn')
@@ -13,7 +11,8 @@ searchBtn.addEventListener('click', () => {
     output.innerHTML = ''
 })
 
-//получение списка самых новых видеороликов
+// Получение списка самых новых видеороликов
+// Getting new videos
 function videoSearch(key, maxResults, search) {
     const promise = new Promise((resolve, reject) => {
         if (searchInput.value !== '') {
@@ -38,8 +37,11 @@ function videoSearch(key, maxResults, search) {
         let containers = new Array()
         let views = new Array()
 
-        // получение количества просмотров для каждого видеоролика
-        // Отображаются только заверщенные трансляции и премьеры
+        // Получение количества просмотров для каждого видеоролика
+        // Getting number of view for every video
+        
+        // Отображаются только завершенные трансляции и премьеры
+        // Displaying only finished Live Strams and Premiere
         data.items.forEach(video => {
             const promiseStats = new Promise((resolve, reject) => {
                 let statUrl = statisticsLink(video.id.videoId)
@@ -56,7 +58,8 @@ function videoSearch(key, maxResults, search) {
                 xhrStats.send()
             })
 
-            // сортировка самых новых видеороликов по кол-ву просмотров
+            // Сортировка самых новых видеороликов по количеству просмотров
+            // Sorting new videos by views
             promiseStats.then(data => {
                 index++
                 let viewCount = data.items[0].statistics.viewCount
